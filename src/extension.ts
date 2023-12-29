@@ -39,7 +39,6 @@ function startClient() {
     synchronize: {
       fileEvents: [
         workspace.createFileSystemWatcher("**/*.bri"),
-        workspace.createFileSystemWatcher("**/brioche.toml"),
       ],
     },
   };
