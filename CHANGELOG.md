@@ -1,9 +1,12 @@
-# Change Log
-
-All notable changes to the "brioche-vscode" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+# Changelog
 
 ## [Unreleased]
 
-- Initial release
+## [v0.1.0] - 2024-05-30
+
+### Added
+
+- Initial release!
+
+[Unreleased]: https://github.com/kylewlacy/tick-encoding/compare/v0.1.0...HEAD
+[v0.1.0]: https://github.com/kylewlacy/tick-encoding/releases/tag/v0.1.0
