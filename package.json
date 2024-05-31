@@ -1,6 +1,6 @@
 {
   "name": "brioche-vscode",
-  "displayName": "brioche-vscode",
+  "displayName": "Brioche",
   "publisher": "brioche-dev",
   "description": "Official extension for Brioche, a delicious package manager",
   "icon": "./images/brioche-logo.png",
