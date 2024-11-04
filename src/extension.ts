@@ -10,7 +10,7 @@ import {
 let client: LanguageClient | null = null;
 
 async function stopClient(): Promise<void> {
-  if (client != null) {
+  if (client !== null) {
     await client.stop();
   }
 
