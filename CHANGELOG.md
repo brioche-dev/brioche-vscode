@@ -5,6 +5,7 @@
 ### Updated
 
 - Updated dependencies
+- Add deployment workflow to publish to VSCode marketplace and OpenVSX
 
 ## [v0.1.0] - 2024-05-30
 
