@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [v0.2.0] - 2024-11-17
+
 ### Updated
 
 - Updated dependencies
