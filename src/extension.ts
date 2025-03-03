@@ -7,6 +7,7 @@ import {
   StatusBarAlignment,
   Uri,
   ProgressLocation,
+  OutputChannel,
 } from "vscode";
 
 import * as path from "path";
@@ -25,6 +26,8 @@ import {
 let client: LanguageClient | null = null;
 let statusBarItem: StatusBarItem;
 let serverRunning: boolean = false;
+// Create a single output channel that will be reused
+let lspOutputChannel: OutputChannel;
 
 /**
  * Gets the brioche binary path from configuration or defaults to 'brioche'
@@ -84,6 +87,9 @@ function getBriocheLogLevel(): string | undefined {
 
 async function startClient(): Promise<void> {
   try {
+    // Clear the existing output channel
+    lspOutputChannel.clear();
+    
     const lspEnvVars =
       workspace
         .getConfiguration("brioche")
@@ -113,13 +119,13 @@ async function startClient(): Promise<void> {
       },
     };
 
-    // Configure client options
+    // Configure client options - use the existing output channel
     const clientOptions: LanguageClientOptions = {
       documentSelector: [{ scheme: "file", language: "brioche" }],
       synchronize: {
         fileEvents: [workspace.createFileSystemWatcher("**/*.bri")],
       },
-      outputChannel: window.createOutputChannel("Brioche LSP"),
+      outputChannel: lspOutputChannel,
       revealOutputChannelOn: RevealOutputChannelOn.Error,
     };
 
@@ -330,6 +336,9 @@ async function runBriocheBuild(): Promise<void> {
  * Activates the extension
  */
 export async function activate(context: ExtensionContext) {
+  // Create the output channel once at activation time
+  lspOutputChannel = window.createOutputChannel("Brioche LSP");
+  
   // Create status bar item
   statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left, 100);
   statusBarItem.command = "brioche-vscode.restartLsp";
@@ -353,6 +362,9 @@ export async function activate(context: ExtensionContext) {
       }
     })
   );
+
+  // Register the output channel to be disposed when the extension is deactivated
+  context.subscriptions.push(lspOutputChannel);
 
   // Check if brioche is installed
   const briocheInstalled = await checkBriocheInstallation();
