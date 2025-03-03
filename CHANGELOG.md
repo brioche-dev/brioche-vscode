@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+- Added icons for dark and light themes for .bri files
+- Added Brioche LSP server status to the status bar
+- Added Brioche build command
+- Validates Brioche is installed and in PATH
+- Environment variables for LSP server via VSCode settings
+- Log level for LSP server via VSCode settings
+- Brioche binary path for LSP server via VSCode settings
+
 ## [v0.2.0] - 2024-11-17
 
 ### Updated

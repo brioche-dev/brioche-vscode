@@ -1,6 +1,6 @@
 # Brioche VSCode
 
-[Brioche](https://brioche.dev) is a delicious package manager, and this extension provides official VS Code integration. Currently still in an early work-in-progress state (use the "Brioche LSP: Restart LSP Server" command to restart if things go haywire)
+[Brioche](https://brioche.dev) is a delicious package manager, and this extension provides official VS Code integration. Currently still in an early work-in-progress state (use the "Brioche LSP: Restart LSP Server" command or click the status bar Brioche LSP item to restart if things go haywire)
 
 > **Note**: Requires the `brioche` CLI tool to be installed locally
 
@@ -8,15 +8,21 @@
 
 - Brioche TypeScript (`.bri`) syntax highlighting
 - LSP support for Brioche TypeScript (`.bri`) files, provided by the `brioche` CLI command
+- Build support with progress notification and detailed output panel
+- Icon support for Brioche files
+- Status bar item to show the Brioche LSP server status (click to restart)
+- Validates Brioche is installed and in PATH
 
 ### Commands
 
 - `brioche-vscode.restartLsp`: Manually restart the Brioche LSP server
+- `brioche-vscode.runBriocheBuild`: Run Brioche build for the current project
 
 ### Configuration Settings
 
-- `brioche-lsp.env` Extra environment variables to set when calling the Brioche LSP server
-    - `RUST_LOG`: Set to `brioche=debug` to enable extra debug output
+- `brioche.binaryPath`: Path to the Brioche binary. Leave empty to use Brioche from PATH.
+- `brioche.envVars`: Extra environment variables to set when calling the Brioche LSP server
+- `brioche.log.level`: Log level for the Brioche language server. Options: `off`, `error`, `warn`, `info`, `debug`, `trace`.
 
 ## Installing from source
 
