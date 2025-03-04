@@ -89,7 +89,7 @@ async function startClient(): Promise<void> {
   try {
     // Clear the existing output channel
     lspOutputChannel.clear();
-    
+
     const lspEnvVars =
       workspace
         .getConfiguration("brioche")
@@ -338,7 +338,7 @@ async function runBriocheBuild(): Promise<void> {
 export async function activate(context: ExtensionContext) {
   // Create the output channel once at activation time
   lspOutputChannel = window.createOutputChannel("Brioche LSP");
-  
+
   // Create status bar item
   statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left, 100);
   statusBarItem.command = "brioche-vscode.restartLsp";
