@@ -25,7 +25,7 @@
     "commands": [
       {
         "command": "brioche-vscode.restartLsp",
-        "title": "Brioche LSP: Restart LSP Server"
+        "title": "Brioche: Restart LSP Server"
       },
       {
         "command": "brioche-vscode.runBriocheBuild",
