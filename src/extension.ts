@@ -35,8 +35,9 @@ let lspOutputChannel: OutputChannel;
 function getBriocheBinaryPath(): string {
   const configPath = workspace
     .getConfiguration("brioche")
-    .get<string>("binaryPath");
-  return configPath && configPath.trim() ? configPath.trim() : "brioche";
+    .get<string>("binaryPath")
+    ?.trim();
+  return configPath || "brioche";
 }
 
 /**
@@ -67,22 +68,7 @@ function getBriocheLogLevel(): string | undefined {
   const logLevel =
     workspace.getConfiguration("brioche").get<string>("log.level") || "off";
 
-  switch (logLevel) {
-    case "off":
-      return "brioche=off";
-    case "error":
-      return "brioche=error";
-    case "warn":
-      return "brioche=warn";
-    case "info":
-      return "brioche=info";
-    case "debug":
-      return "brioche=debug";
-    case "trace":
-      return "brioche=trace";
-    default:
-      return undefined;
-  }
+  return `brioche=${logLevel}`;
 }
 
 async function startClient(): Promise<void> {
@@ -98,16 +84,10 @@ async function startClient(): Promise<void> {
     const rustLogLevel = getBriocheLogLevel();
 
     // Build environment variables for LSP
-    let env = {
-      ...process.env,
+    const env = {
+      ...(rustLogLevel ? {RUST_LOG: rustLogLevel} : {}),
+      ...lspEnvVars,
     };
-
-    // Add RUST_LOG if specified
-    if (rustLogLevel) {
-      env["RUST_LOG"] = rustLogLevel;
-    }
-
-    env = { ...env, ...lspEnvVars };
 
     // Configure server options
     const serverOptions: ServerOptions = {
