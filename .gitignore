@@ -3,3 +3,6 @@ dist
 node_modules
 .vscode-test/
 *.vsix
+
+# Include .vscode even when excluded globally
+!.vscode
