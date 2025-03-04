@@ -35,8 +35,9 @@ let lspOutputChannel: OutputChannel;
 function getBriocheBinaryPath(): string {
   const configPath = workspace
     .getConfiguration("brioche")
-    .get<string>("binaryPath");
-  return configPath && configPath.trim() ? configPath.trim() : "brioche";
+    .get<string>("binaryPath")
+    ?.trim();
+  return configPath || "brioche";
 }
 
 /**
@@ -67,22 +68,7 @@ function getBriocheLogLevel(): string | undefined {
   const logLevel =
     workspace.getConfiguration("brioche").get<string>("log.level") || "off";
 
-  switch (logLevel) {
-    case "off":
-      return "brioche=off";
-    case "error":
-      return "brioche=error";
-    case "warn":
-      return "brioche=warn";
-    case "info":
-      return "brioche=info";
-    case "debug":
-      return "brioche=debug";
-    case "trace":
-      return "brioche=trace";
-    default:
-      return undefined;
-  }
+  return `brioche=${logLevel}`;
 }
 
 async function startClient(): Promise<void> {
@@ -98,16 +84,11 @@ async function startClient(): Promise<void> {
     const rustLogLevel = getBriocheLogLevel();
 
     // Build environment variables for LSP
-    let env = {
+    const env = {
       ...process.env,
+      ...(rustLogLevel ? {RUST_LOG: rustLogLevel} : {}),
+      ...lspEnvVars,
     };
-
-    // Add RUST_LOG if specified
-    if (rustLogLevel) {
-      env["RUST_LOG"] = rustLogLevel;
-    }
-
-    env = { ...env, ...lspEnvVars };
 
     // Configure server options
     const serverOptions: ServerOptions = {
@@ -288,13 +269,12 @@ async function runBriocheBuild(): Promise<void> {
           process.stdout?.on("data", (data: Buffer) => {
             const output = data.toString();
             outputChannel.append(output);
-            outputChannel.show(true); // Force the output channel to remain visible
             progress.report({ message: "Building project..." });
           });
 
           process.stderr?.on("data", (data: Buffer) => {
             outputChannel.append(data.toString());
-            outputChannel.show(true); // Show output immediately for errors
+            progress.report({ message: "Building project..." });
           });
 
           token.onCancellationRequested(() => {
@@ -304,15 +284,39 @@ async function runBriocheBuild(): Promise<void> {
           });
 
           process.on("close", (code: number | null) => {
+            const showOutputButton = "Show output";
+
             if (code === 0) {
               outputChannel.appendLine("\nBuild completed successfully!");
-              window.showInformationMessage("Build completed successfully!");
+              window.showInformationMessage("Build completed successfully!", showOutputButton).then((item) => {
+                // Show the output if the user clicks "Show output"
+                if (item === showOutputButton) {
+                  outputChannel.show(true);
+                }
+              });
+              resolve();
+            } else if (code != null) {
+              const message = `Build failed with exit code ${code}`;
+              outputChannel.appendLine(`\n${message}`);
+
+              window.showErrorMessage(message, showOutputButton).then((item) => {
+                // Show the output if the user clicks "Show output"
+                if (item === showOutputButton) {
+                  outputChannel.show(true);
+                }
+              });
               resolve();
             } else {
-              const message = `Build failed with code ${code}`;
+              const message = "Build stopped";
               outputChannel.appendLine(`\n${message}`);
-              window.showErrorMessage(message);
-              reject(new Error(message));
+
+              window.showErrorMessage(message, showOutputButton).then((item) => {
+                // Show the output if the user clicks "Show output"
+                if (item === showOutputButton) {
+                  outputChannel.show(true);
+                }
+              });
+              resolve();
             }
           });
 
