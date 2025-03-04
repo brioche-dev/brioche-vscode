@@ -284,12 +284,12 @@ async function runBriocheBuild(): Promise<void> {
           });
 
           process.on("close", (code: number | null) => {
-            const showOutputButton = "Show Output";
+            const showOutputButton = "Show output";
 
             if (code === 0) {
               outputChannel.appendLine("\nBuild completed successfully!");
               window.showInformationMessage("Build completed successfully!", showOutputButton).then((item) => {
-                // Show the output if the user clicks "Show Output"
+                // Show the output if the user clicks "Show output"
                 if (item === showOutputButton) {
                   outputChannel.show(true);
                 }
@@ -300,7 +300,7 @@ async function runBriocheBuild(): Promise<void> {
               outputChannel.appendLine(`\n${message}`);
 
               window.showErrorMessage(message, showOutputButton).then((item) => {
-                // Show the output if the user clicks "Show Output"
+                // Show the output if the user clicks "Show output"
                 if (item === showOutputButton) {
                   outputChannel.show(true);
                 }
@@ -311,7 +311,7 @@ async function runBriocheBuild(): Promise<void> {
               outputChannel.appendLine(`\n${message}`);
 
               window.showErrorMessage(message, showOutputButton).then((item) => {
-                // Show the output if the user clicks "Show Output"
+                // Show the output if the user clicks "Show output"
                 if (item === showOutputButton) {
                   outputChannel.show(true);
                 }
