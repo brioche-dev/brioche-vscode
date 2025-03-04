@@ -2,15 +2,21 @@
 
 ## [Unreleased]
 
+### Breaking changes
+
+- Replace `brioche.lsp-env` configuration value with `brioche.envVars`
+
 ### Added
 
-- Added icons for dark and light themes for .bri files
+- Added custom dark / light theme icons for `.bri` files
 - Added Brioche LSP server status to the status bar
-- Added Brioche build command
-- Validates Brioche is installed and in PATH
-- Environment variables for LSP server via VSCode settings
-- Log level for LSP server via VSCode settings
-- Brioche binary path for LSP server via VSCode settings
+- Added "Brioche: Build Project" command
+- Add `brioche.log.level` configuration value to control logging fro Brioche LSP (and Brioche commands)
+- Add `brioche.binaryPath` configuration value to set the path to the `brioche` binary
+
+### Changed
+
+- Validate Brioche is installed and in PATH on startup
 
 ### Bug Fixes
 
