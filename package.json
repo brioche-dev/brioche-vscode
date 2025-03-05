@@ -4,7 +4,7 @@
   "publisher": "brioche-dev",
   "description": "Official extension for Brioche, a delicious package manager",
   "icon": "./images/brioche-logo.png",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/brioche-dev/brioche-vscode.git"
